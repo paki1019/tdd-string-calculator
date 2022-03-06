@@ -1,15 +1,13 @@
 package converter;
 
-import exception.ConvertFailException;
-import token.Token;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import exception.ConvertFailException;
+import token.Token;
+
 public class PostFixConverter {
-
-
     public static List<Token> convert(List<Token> tokens) {
         List<Token> result = new ArrayList<>();
         Stack<Token> stack = new Stack();
