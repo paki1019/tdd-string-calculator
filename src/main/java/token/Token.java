@@ -9,6 +9,8 @@ public interface Token {
                 return new Minus();
             case "*":
                 return new Multiply();
+            case "/":
+                return new Divide();
             default:
                 return new Number(s);
         }

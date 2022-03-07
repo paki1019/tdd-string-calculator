@@ -16,4 +16,5 @@ public interface Operator extends Token {
 
     int getPriority();
 
+    boolean equals(Object obj);
 }

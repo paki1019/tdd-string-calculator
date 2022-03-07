@@ -1,15 +1,15 @@
 package converter;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import exception.ConvertFailException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import token.Token;
 
 import java.util.List;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import exception.ConvertFailException;
-import token.Token;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PostFixConverterTest {
 
@@ -93,4 +93,23 @@ class PostFixConverterTest {
         assertThat(result).isEqualTo(List.of(Token.of("3"), Token.of("4"), Token.of("-2"), Token.of("*"), Token.of("+")));
     }
 
+    @Test
+    @DisplayName("숫자 / 숫자 + 숫자")
+    void number_divide_number_plus_number() {
+        List<Token> result = PostFixConverter.convert(List.of(Token.of("8"), Token.of("/"), Token.of("2"), Token.of("+"), Token.of("3")));
+        assertThat(result).isEqualTo(List.of(Token.of("8"), Token.of("2"), Token.of("/"), Token.of("3"), Token.of("+")));
+
+        result = PostFixConverter.convert(List.of(Token.of("4"), Token.of("/"), Token.of("4"), Token.of("+"), Token.of("-2")));
+        assertThat(result).isEqualTo(List.of(Token.of("4"), Token.of("4"), Token.of("/"), Token.of("-2"), Token.of("+")));
+    }
+
+    @Test
+    @DisplayName("숫자 + 숫자 / 숫자")
+    void number_plus_number_divide_number() {
+        List<Token> result = PostFixConverter.convert(List.of(Token.of("8"), Token.of("+"), Token.of("2"), Token.of("/"), Token.of("3")));
+        assertThat(result).isEqualTo(List.of(Token.of("8"), Token.of("2"), Token.of("3"), Token.of("/"), Token.of("+")));
+
+        result = PostFixConverter.convert(List.of(Token.of("4"), Token.of("+"), Token.of("4"), Token.of("/"), Token.of("-2")));
+        assertThat(result).isEqualTo(List.of(Token.of("4"), Token.of("4"), Token.of("-2"), Token.of("/"), Token.of("+")));
+    }
 }
