@@ -13,4 +13,7 @@ public interface Operator extends Token {
     default boolean isOperand() {
         return false;
     }
+
+    int getPriority();
+
 }

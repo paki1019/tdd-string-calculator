@@ -1,15 +1,15 @@
 package converter;
 
-import exception.ConvertFailException;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import token.Token;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import exception.ConvertFailException;
+import token.Token;
 
 class PostFixConverterTest {
 
@@ -26,6 +26,18 @@ class PostFixConverterTest {
     void convert_empty() {
         List<Token> result = PostFixConverter.convert(List.of());
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("숫자 토큰 연속 입력, 예외 반환")
+    void input_sequence_number_token() {
+        assertThrows(ConvertFailException.class, () -> PostFixConverter.convert(List.of(Token.of("1"), Token.of("2"))));
+    }
+
+    @Test
+    @DisplayName("연산자 토큰 연속 입력, 예외 반환")
+    void input_sequence_operator_token() {
+        assertThrows(ConvertFailException.class, () -> PostFixConverter.convert(List.of(Token.of("1"), Token.of("2"))));
     }
 
     @Test
@@ -62,14 +74,23 @@ class PostFixConverterTest {
     }
 
     @Test
-    @DisplayName("숫자 토큰 연속 입력, 예외 반환")
-    void input_sequence_number_token() {
-        assertThrows(ConvertFailException.class, () -> PostFixConverter.convert(List.of(Token.of("1"), Token.of("2"))));
+    @DisplayName("숫자 * 숫자 + 숫자")
+    void number_multiply_number_plus_number() {
+        List<Token> result = PostFixConverter.convert(List.of(Token.of("1"), Token.of("*"), Token.of("2"), Token.of("+"), Token.of("-2")));
+        assertThat(result).isEqualTo(List.of(Token.of("1"), Token.of("2"), Token.of("*"), Token.of("-2"), Token.of("+")));
+
+        result = PostFixConverter.convert(List.of(Token.of("3"), Token.of("*"), Token.of("4"), Token.of("+"), Token.of("-2")));
+        assertThat(result).isEqualTo(List.of(Token.of("3"), Token.of("4"), Token.of("*"), Token.of("-2"), Token.of("+")));
     }
 
     @Test
-    @DisplayName("연산자 토큰 연속 입력, 예외 반환")
-    void input_sequence_operator_token() {
-        assertThrows(ConvertFailException.class, () -> PostFixConverter.convert(List.of(Token.of("1"), Token.of("2"))));
+    @DisplayName("숫자 + 숫자 * 숫자")
+    void number_plus_number_multiply_number() {
+        List<Token> result = PostFixConverter.convert(List.of(Token.of("1"), Token.of("+"), Token.of("2"), Token.of("*"), Token.of("-2")));
+        assertThat(result).isEqualTo(List.of(Token.of("1"), Token.of("2"), Token.of("-2"), Token.of("*"), Token.of("+")));
+
+        result = PostFixConverter.convert(List.of(Token.of("3"), Token.of("+"), Token.of("4"), Token.of("*"), Token.of("-2")));
+        assertThat(result).isEqualTo(List.of(Token.of("3"), Token.of("4"), Token.of("-2"), Token.of("*"), Token.of("+")));
     }
+
 }

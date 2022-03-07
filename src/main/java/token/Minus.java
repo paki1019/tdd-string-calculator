@@ -7,12 +7,17 @@ public class Minus implements Operator {
     }
 
     @Override
+    public int getPriority() {
+        return 0;
+    }
+
+    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        return true;
+        return obj instanceof Minus;
     }
 }
