@@ -16,5 +16,4 @@ public class DivideTest {
         assertThat(new Divide().equals(new Divide())).isEqualTo(true);
         assertThat(new Divide().equals(Token.of("/"))).isEqualTo(true);
     }
-
 }

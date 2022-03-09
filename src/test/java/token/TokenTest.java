@@ -14,6 +14,6 @@ class TokenTest {
         assertThat(Token.of("-")).isInstanceOf(Minus.class);
         assertThat(Token.of("*")).isInstanceOf(Multiply.class);
         assertThat(Token.of("/")).isInstanceOf(Divide.class);
-        assertThat(Token.of("0")).isInstanceOf(Number.class);
+        assertThat(Token.of("0")).isInstanceOf(Operand.class);
     }
 }

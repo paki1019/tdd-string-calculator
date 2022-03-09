@@ -12,7 +12,7 @@ public interface Token {
             case "/":
                 return new Divide();
             default:
-                return new Number(s);
+                return new Operand(s);
         }
     }
 

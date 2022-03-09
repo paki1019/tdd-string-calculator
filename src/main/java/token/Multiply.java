@@ -3,8 +3,8 @@ package token;
 public class Multiply implements Operator {
 
 	@Override
-	public Number calculate(Number operand1, Number operand2) {
-		return new Number(operand1.getNumber() * operand2.getNumber());
+	public Operand calculate(Operand operand1, Operand operand2) {
+		return new Operand(operand1.getNumber() * operand2.getNumber());
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.Stack;
 
 import converter.PostFixConverter;
 import exception.CalculateFailException;
-import token.Number;
+import token.Operand;
 import token.Operator;
 import token.Token;
 
@@ -21,8 +21,8 @@ public class PostFixCalculator implements Calculator {
 		Stack<Token> stack = new Stack<>();
 		for (Token t : tokens) {
 			if (t instanceof Operator) {
-				Number operand2 = (Number)stack.pop();
-				Number operand1 = (Number)stack.pop();
+				Operand operand2 = (Operand)stack.pop();
+				Operand operand1 = (Operand)stack.pop();
 				stack.push(((Operator)t).calculate(operand1, operand2));
 			} else {
 				stack.push(t);
@@ -32,6 +32,6 @@ public class PostFixCalculator implements Calculator {
 		if (stack.isEmpty()) {
 			throw new CalculateFailException();
 		}
-		return ((Number)stack.pop()).getNumber();
+		return ((Operand)stack.pop()).getNumber();
 	}
 }

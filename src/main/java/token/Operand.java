@@ -2,14 +2,14 @@ package token;
 
 import java.util.Objects;
 
-public class Number implements Token {
+public class Operand implements Token {
     private int number;
 
-    public Number(String s) {
+    public Operand(String s) {
         this.number = Integer.parseInt(s);
     }
 
-    public Number(int number) {
+    public Operand(int number) {
         this.number = number;
     }
 
@@ -31,7 +31,7 @@ public class Number implements Token {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Number number = (Number) o;
+        Operand number = (Operand) o;
         return this.number == number.number;
     }
 
